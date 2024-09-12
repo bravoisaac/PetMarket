@@ -1,15 +1,13 @@
 
     body,html {height:100%;overflow:hidden;}
     body {
+    overflow-y: scroll;
     width: 100%;
-    height: 100%;
+
     position: absolute;
     background: linear-gradient(to bottom, #969ceb 0%,#31c08e 100%);
     }
-    div {
 
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%,rgba(0,0,0,0.05) 100%); 
-    }
 
 .buscar{
     padding: 0px;
@@ -34,27 +32,11 @@
     
 
 }
-.btn{
-    position: absolute;
-    top: 0;    
-    right: 0;
-    width: 55px;
-    height: 55px;
-    line-height: 55px;
 
-
-}
-.imagen_carri{
-    margin-left: 870px; 
-    margin-right: 10px; 
-
-
-
-}
 
 
     
-    .menu{
+.menu{
         list-style: none;
         padding: 0;
         background: #092327;
@@ -62,47 +44,87 @@
         max-width: 1150px; 
         margin-left: 190px; 
         margin-right: 100px; 
-    }
+}
     
-    .menu li a{
+.menu li a{
         text-decoration: none;
         color: white;
         padding: 20px;
-        display: block;
-    }
-    
-    .menu li{
+        display: block;    }
+        
+.menu li{
         display: inline-block;
         text-align: center;
     }
     
-    .menu li a:hover{
+.menu li a:hover{
         background: #52ad52;
     }
     
-    .button_1{
-        background-color: #4CAF50;
-        border: none;
-        color: rgb(255, 255, 255);
-        padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
+.button_1{
         margin-top: 50px;
-        cursor: pointer;
+        margin-left: 100px;
+        margin-right: 1200px;
+        padding: 100px;
+
       }    
-      .button_2{
-        background-color: #4CAF50;
-        border: none;
-        color: rgb(255, 255, 255);
-        padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin-top: 20px;
-        margin-left: 190px;
-        cursor: pointer;
+.button_2{
+
+        margin-top: 10px;
+        margin-left: 0px;
+        margin-right: 2%;
+
       }          
+
+.barar{
+        margin-left: 190px;
+        margin-right: 190px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+      }
+#divisionxora{
+    background-color: #31c08e;
+    height: 100vh;
+    width: 100vw;
+}
+
     
+    
+
+
+.titulo {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.text{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.textoxoro{
+
+    width: 30vw;
+    margin: 0 auto;
+    margin-top: 5vh;
+
+}
+.videoxoro{
+    width: 30vw;
+    margin: 0 auto;
+    margin-top: 5vh;
+
+}
+.videoxoro video{
+    width: 30vw;
+    height: 30vh;
+    margin: 0 auto;
+    margin-top: 5vh;
+
+    
+}
+.imagen1{
+    
+    width: 30vw;
+    height: 30vh;
+
+
+}
+
+
