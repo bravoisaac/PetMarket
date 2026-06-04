@@ -1,0 +1,38 @@
+@import '@ionic/angular/css/core.css';
+@import '@ionic/angular/css/normalize.css';
+@import '@ionic/angular/css/structure.css';
+@import '@ionic/angular/css/typography.css';
+@import '@ionic/angular/css/display.css';
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: var(--color-cream-canvas);
+}
+
+body {
+  margin: 0;
+  color: var(--color-ink-text);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+ion-button {
+  --border-radius: 14px;
+  --box-shadow: none;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+ion-content {
+  --background: var(--color-cream-canvas);
+}

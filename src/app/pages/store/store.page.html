@@ -1,0 +1,349 @@
+<ion-header class="app-header">
+  <ion-toolbar>
+    <a class="brand" href="/" aria-label="PetMarket inicio">
+      <span class="brand-mark"><ion-icon name="paw-outline" /></span>
+      <span>PetMarket</span>
+    </a>
+
+    <nav class="top-nav" aria-label="Navegacion principal">
+      <a href="#destacados">Destacados</a>
+      <a href="#catalogo">Catalogo</a>
+      <a href="#beneficios">Beneficios</a>
+    </nav>
+
+    <ion-buttons slot="end">
+      <ion-button fill="clear" aria-label="Menu">
+        <ion-icon slot="icon-only" name="menu-outline" />
+      </ion-button>
+      <ion-button class="cart-button" fill="solid" href="#carrito" aria-label="Carrito">
+        <ion-icon slot="start" name="cart-outline" />
+        Carrito
+        @if (cart.totalItems() > 0) {
+          <ion-badge>{{ cart.totalItems() }}</ion-badge>
+        }
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <main class="store-shell">
+    <section class="hero-section" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <ion-chip>Despacho gratis desde $30.000</ion-chip>
+        <h1 id="hero-title">Todo para mascotas, ordenado para comprar rapido.</h1>
+        <p>
+          Alimentos, higiene, descanso y juguetes en un catalogo academico con carrito funcional,
+          stock visible y precios de prueba listos para presentar.
+        </p>
+        <div class="hero-actions">
+          <ion-button href="#catalogo">
+            Ver catalogo
+            <ion-icon slot="end" name="chevron-forward-outline" />
+          </ion-button>
+          <ion-button fill="outline" href="#destacados">
+            Destacados
+            <ion-icon slot="end" name="star-outline" />
+          </ion-button>
+        </div>
+      </div>
+
+      <div class="hero-panel" aria-label="Resumen de tienda">
+        <div class="hero-photo">
+          <img src="assets/products/pet-bed.png" alt="Producto destacado para mascotas">
+          <span>Pack cuidado semanal</span>
+        </div>
+        <div class="metric-card mint">
+          <span>Productos activos</span>
+          <strong>{{ products.length }}</strong>
+        </div>
+        <div class="metric-card slate">
+          <span>Ventas demo</span>
+          <strong>186</strong>
+        </div>
+        <div class="delivery-card">
+          <ion-icon name="shield-checkmark-outline" />
+          <div>
+            <strong>Compra cuidada</strong>
+            <span>Productos revisados, stock visible y retiro en tienda.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="beneficios" class="service-band" aria-label="Beneficios">
+      <article>
+        <ion-icon name="storefront-outline" />
+        <strong>Retiro express</strong>
+        <span>Pedidos listos en 2 horas.</span>
+      </article>
+      <article>
+        <ion-icon name="location-outline" />
+        <strong>Despacho local</strong>
+        <span>Cobertura urbana simulada.</span>
+      </article>
+      <article>
+        <ion-icon name="sparkles-outline" />
+        <strong>Datos de prueba</strong>
+        <span>Catalogo editable para evaluacion.</span>
+      </article>
+    </section>
+
+    <section class="assurance-strip" aria-label="Confianza de compra">
+      <div>
+        <strong>Pago simulado seguro</strong>
+        <span>Flujo preparado para integrar Webpay, Mercado Pago o transferencia.</span>
+      </div>
+      <div>
+        <strong>Inventario visible</strong>
+        <span>Cada producto muestra stock disponible y categoria.</span>
+      </div>
+      <div>
+        <strong>Carrito persistible</strong>
+        <span>Servicio centralizado listo para conectar con una API.</span>
+      </div>
+    </section>
+
+    <section id="destacados" class="featured-section">
+      <div class="section-heading">
+        <span>Seleccion PetMarket</span>
+        <h2>Productos destacados</h2>
+      </div>
+
+      <div class="featured-grid">
+        @for (product of featuredProducts; track product.id) {
+          <article class="featured-card">
+            <img [src]="product.image" [alt]="product.name">
+            <div>
+              <ion-chip>{{ product.badge }}</ion-chip>
+              <h3>{{ product.name }}</h3>
+              <p>{{ product.description }}</p>
+              <button type="button" (click)="addToCart(product)">
+                {{ product.price | currency:'CLP':'symbol-narrow':'1.0-0' }}
+                <ion-icon name="bag-handle-outline" />
+              </button>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+
+    <section id="catalogo" class="catalog-layout">
+      <div class="catalog-main">
+        <div class="catalog-toolbar">
+          <div class="section-heading">
+            <span>Catalogo</span>
+            <h2>Insumos disponibles</h2>
+          </div>
+          <ion-searchbar
+            placeholder="Buscar alimento, arena, cama..."
+            [debounce]="150"
+            (ionInput)="onSearch($event)"
+          />
+        </div>
+
+        <div class="category-row" aria-label="Categorias">
+          @for (category of categories; track category) {
+            <button
+              type="button"
+              [class.active]="selectedCategory() === category"
+              (click)="selectCategory(category)"
+            >
+              {{ category }}
+            </button>
+          }
+        </div>
+
+        <div class="product-grid">
+          @for (product of filteredProducts(); track product.id) {
+            <article class="product-card">
+              <div class="product-image">
+                <img [src]="product.image" [alt]="product.name">
+                <span>{{ product.badge }}</span>
+              </div>
+              <div class="product-body">
+                <div class="product-meta">
+                  <span>{{ product.category }}</span>
+                  <span><ion-icon name="star-outline" /> {{ product.rating }} ({{ product.reviews }})</span>
+                </div>
+                <h3>{{ product.name }}</h3>
+                <p>{{ product.description }}</p>
+                <div class="stock-row">
+                  <span>{{ product.stock }} disponibles</span>
+                  <span>Entrega 24/48 h</span>
+                </div>
+                <div class="product-footer">
+                  <div>
+                    <strong>{{ product.price | currency:'CLP':'symbol-narrow':'1.0-0' }}</strong>
+                    @if (product.previousPrice) {
+                      <small>{{ product.previousPrice | currency:'CLP':'symbol-narrow':'1.0-0' }}</small>
+                    }
+                  </div>
+                  <ion-button size="small" (click)="addToCart(product)">
+                    <ion-icon slot="icon-only" name="bag-handle-outline" />
+                  </ion-button>
+                </div>
+              </div>
+            </article>
+          } @empty {
+            <div class="empty-state">
+              <ion-icon name="search-outline" />
+              <strong>No hay productos para esta busqueda.</strong>
+              <span>Prueba con otra categoria o texto.</span>
+            </div>
+          }
+        </div>
+      </div>
+
+      <aside id="carrito" class="cart-panel" aria-label="Carrito de compra">
+        <div class="cart-header">
+          <div>
+            <span>Carrito</span>
+            <h2>Resumen</h2>
+          </div>
+          <ion-badge>{{ cart.totalItems() }} items</ion-badge>
+        </div>
+
+        <div class="cart-items">
+          @for (item of cart.items(); track item.product.id) {
+            <article class="cart-item">
+              <img [src]="item.product.image" [alt]="item.product.name">
+              <div>
+                <strong>{{ item.product.name }}</strong>
+                <span>{{ item.product.price | currency:'CLP':'symbol-narrow':'1.0-0' }}</span>
+                <div class="quantity-row">
+                  <button type="button" (click)="cart.updateQuantity(item.product.id, item.quantity - 1)">-</button>
+                  <span>{{ item.quantity }}</span>
+                  <button type="button" (click)="cart.updateQuantity(item.product.id, item.quantity + 1)">+</button>
+                  <button class="remove" type="button" (click)="cart.remove(item.product.id)" aria-label="Quitar">
+                    <ion-icon name="trash-outline" />
+                  </button>
+                </div>
+              </div>
+            </article>
+          } @empty {
+            <div class="empty-cart">
+              <ion-icon name="cart-outline" />
+              <span>Agrega productos para ver el total.</span>
+            </div>
+          }
+        </div>
+
+        <div class="totals">
+          <div><span>Subtotal</span><strong>{{ cart.subtotal() | currency:'CLP':'symbol-narrow':'1.0-0' }}</strong></div>
+          <div><span>Despacho</span><strong>{{ cart.shipping() | currency:'CLP':'symbol-narrow':'1.0-0' }}</strong></div>
+          <div class="grand-total"><span>Total</span><strong>{{ cart.total() | currency:'CLP':'symbol-narrow':'1.0-0' }}</strong></div>
+        </div>
+
+        <ion-button expand="block" [disabled]="cart.totalItems() === 0" (click)="startCheckout()">
+          Continuar compra
+          <ion-icon slot="end" name="chevron-forward-outline" />
+        </ion-button>
+
+        @if (checkoutStep() === 'details') {
+          <section class="checkout-card" aria-label="Datos para el pago">
+            <div class="checkout-title">
+              <ion-icon name="receipt-outline" />
+              <div>
+                <strong>Datos de compra</strong>
+                <span>Formulario demo para iniciar Webpay.</span>
+              </div>
+            </div>
+
+            <label>
+              Nombre
+              <input type="text" [value]="buyer().name" (input)="updateBuyer('name', $event)" placeholder="Ej: Camila Soto">
+            </label>
+            <label>
+              Email
+              <input type="email" [value]="buyer().email" (input)="updateBuyer('email', $event)" placeholder="correo@demo.cl">
+            </label>
+            <label>
+              Telefono
+              <input type="tel" [value]="buyer().phone" (input)="updateBuyer('phone', $event)" placeholder="+56 9 1234 5678">
+            </label>
+            <label>
+              Direccion
+              <input type="text" [value]="buyer().address" (input)="updateBuyer('address', $event)" placeholder="Av. Principal 123">
+            </label>
+
+            <div class="webpay-note">
+              <strong>Modo practica</strong>
+              <span>En produccion este paso debe llamar a un backend con Transbank SDK para crear la transaccion.</span>
+            </div>
+
+            <ion-button expand="block" [disabled]="!buyerIsValid()" (click)="createWebpayTransaction()">
+              Crear pago Webpay
+              <ion-icon slot="end" name="card-outline" />
+            </ion-button>
+          </section>
+        }
+
+        @if (checkoutStep() === 'webpay') {
+          @if (webpayTransaction(); as transaction) {
+            <section class="webpay-panel" aria-label="Simulador Webpay">
+              <div class="webpay-brand">
+                <span>webpay</span>
+                <strong>plus developer</strong>
+              </div>
+
+              <div class="webpay-amount">
+                <span>Total a pagar</span>
+                <strong>{{ cart.total() | currency:'CLP':'symbol-narrow':'1.0-0' }}</strong>
+              </div>
+
+              <dl>
+                <div>
+                  <dt>Orden</dt>
+                  <dd>{{ transaction.buyOrder }}</dd>
+                </div>
+                <div>
+                  <dt>Token</dt>
+                  <dd>{{ transaction.token }}</dd>
+                </div>
+                <div>
+                  <dt>Tarjeta demo</dt>
+                  <dd>Redcompra **** {{ transaction.cardNumber }}</dd>
+                </div>
+              </dl>
+
+              <ion-button expand="block" (click)="approveWebpayPayment()">
+                Aprobar pago demo
+                <ion-icon slot="end" name="checkmark-circle-outline" />
+              </ion-button>
+            </section>
+          }
+        }
+
+        @if (checkoutStep() === 'success') {
+          @if (webpayTransaction(); as transaction) {
+            <section class="receipt-card" aria-label="Comprobante de pago">
+              <ion-icon name="checkmark-circle-outline" />
+              <strong>Pago aprobado</strong>
+              <span>Compra registrada en modo practica Webpay.</span>
+
+              <dl>
+                <div>
+                  <dt>Orden</dt>
+                  <dd>{{ transaction.buyOrder }}</dd>
+                </div>
+                <div>
+                  <dt>Autorizacion</dt>
+                  <dd>{{ transaction.authorizationCode }}</dd>
+                </div>
+                <div>
+                  <dt>Monto</dt>
+                  <dd>{{ cart.total() | currency:'CLP':'symbol-narrow':'1.0-0' }}</dd>
+                </div>
+              </dl>
+
+              <ion-button expand="block" fill="outline" (click)="resetCheckout()">
+                Nueva compra
+              </ion-button>
+            </section>
+          }
+        }
+      </aside>
+    </section>
+  </main>
+</ion-content>
